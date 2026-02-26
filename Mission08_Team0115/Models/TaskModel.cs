@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using Mission08_Team0115.Models;
 using System.ComponentModel.DataAnnotations.Schema;
-
 public class TaskModel
 {
     [Key]

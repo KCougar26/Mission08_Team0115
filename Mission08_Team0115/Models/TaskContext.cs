@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+namespace Mission08_Team0115.Models;
 
 public class TaskContext : DbContext
 {

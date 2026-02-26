@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+namespace Mission08_Team0115.Models;
 public class EFTaskRepository : ITaskRepository
 {
     private TaskContext _context;
@@ -13,5 +15,14 @@ public class EFTaskRepository : ITaskRepository
         _context.Add(task);
         _context.SaveChanges();
     }
-    // Implement Update and Delete similarly...
+    public void UpdateTask(TaskModel task)
+    {
+        _context.Update(task);
+        _context.SaveChanges();
+    }
+    public void DeleteTask(TaskModel task)
+    {
+        _context.Remove(task);
+        _context.SaveChanges();
+    }
 }
