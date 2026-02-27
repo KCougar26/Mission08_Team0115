@@ -1,0 +1,67 @@
+@model Mission08_Team0115.Models.ViewModels.TaskViewModel
+
+@{
+    ViewData["Title"] = Model.Task.TaskId == 0 ? "Add Task" : "Edit Task";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="AddTask" method="post">
+            <input type="hidden" asp-for="Task.TaskId" />
+
+            <!-- Task Name -->
+            <div class="mb-3">
+                <label asp-for="Task.TaskName" class="form-label">Task</label>
+                <input asp-for="Task.TaskName" class="form-control" />
+                <span asp-validation-for="Task.TaskName" class="text-danger"></span>
+            </div>
+
+            <!-- Due Date -->
+            <div class="mb-3">
+                <label asp-for="Task.DueDate" class="form-label">Due Date</label>
+                <input asp-for="Task.DueDate" class="form-control" type="date" />
+                <span asp-validation-for="Task.DueDate" class="text-danger"></span>
+            </div>
+
+            <!-- Quadrant -->
+            <div class="mb-3">
+                <label asp-for="Task.Quadrant" class="form-label">Quadrant</label>
+                <select asp-for="Task.Quadrant" class="form-select">
+                    <option value="">-- Select Quadrant --</option>
+                    <option value="1">Quadrant I: Important / Urgent</option>
+                    <option value="2">Quadrant II: Important / Not Urgent</option>
+                    <option value="3">Quadrant III: Not Important / Urgent</option>
+                    <option value="4">Quadrant IV: Not Important / Not Urgent</option>
+                </select>
+                <span asp-validation-for="Task.Quadrant" class="text-danger"></span>
+            </div>
+
+            <!-- Category Dropdown -->
+            <div class="mb-3">
+                <label asp-for="Task.CategoryId" class="form-label">Category</label>
+                <select asp-for="Task.CategoryId" asp-items="Model.Categories" class="form-select">
+                    <option value="">-- Select Category --</option>
+                </select>
+                <span asp-validation-for="Task.CategoryId" class="text-danger"></span>
+            </div>
+
+            <!-- Completed Checkbox -->
+            <div class="mb-3 form-check">
+                <input asp-for="Task.Completed" class="form-check-input" type="checkbox" />
+                <label asp-for="Task.Completed" class="form-check-label">Completed</label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">
+                @(Model.Task.TaskId == 0 ? "Add Task" : "Update Task")
+            </button>
+            <a asp-action="Quadrants" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
