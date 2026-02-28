@@ -20,7 +20,10 @@ namespace Mission08_Team0115.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var tasks = _repo.Tasks
+                .Where(t => !t.Completed)
+                .ToList();
+            return View(tasks);
         }
 
         // Show list of tasks (grouping / filtering can be done in the view)
@@ -89,6 +92,7 @@ namespace Mission08_Team0115.Controllers
 
             return RedirectToAction("Quadrants");
         }
+        
     }
 }
 

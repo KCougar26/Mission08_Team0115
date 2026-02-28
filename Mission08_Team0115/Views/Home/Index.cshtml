@@ -1,8 +1,224 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<TaskModel>
+
+@{
+    ViewData["Title"] = "Task Quadrants";
+    var tasks = Model ?? Enumerable.Empty<TaskModel>();
+    var q1 = Model.Where(t => t.Quadrant == 1).ToList();
+    var q2 = Model.Where(t => t.Quadrant == 2).ToList();
+    var q3 = Model.Where(t => t.Quadrant == 3).ToList();
+    var q4 = Model.Where(t => t.Quadrant == 4).ToList();
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h2 class="text-center my-4">Task Quadrants</h2>
+<p class="text-center text-muted mb-4">
+    Based on Stephen Covey's <em>7 Habits of Highly Effective People</em>
+</p>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+
+        <!-- Quadrant I -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-danger h-100">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">Quadrant I &mdash; Important / Urgent</h5>
+                </div>
+                <div class="card-body">
+                    @if (!q1.Any())
+                    {
+                        <p class="text-muted">No tasks in this quadrant.</p>
+                    }
+                    else
+                    {
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Due Date</th>
+                                    <th>Category</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in q1)
+                                {
+                                    <tr>
+                                        <td>@task.TaskName</td>
+                                        <td>@(task.DueDate ?? "—")</td>
+                                        <td>@task.Category?.CategoryName</td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", new { id = task.TaskId }, new { @class = "btn btn-sm btn-outline-primary me-1" })
+                                            <form asp-action="MarkComplete" asp-route-id="@task.TaskId" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-outline-success me-1">Done</button>
+                                            </form>
+                                            <form asp-action="Delete" asp-route-id="@task.TaskId" method="post" class="d-inline"
+                                                  onsubmit="return confirm('Are you sure you want to delete this task?');">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Quadrant II -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-primary h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Quadrant II &mdash; Important / Not Urgent</h5>
+                </div>
+                <div class="card-body">
+                    @if (!q2.Any())
+                    {
+                        <p class="text-muted">No tasks in this quadrant.</p>
+                    }
+                    else
+                    {
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Due Date</th>
+                                    <th>Category</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in q2)
+                                {
+                                    <tr>
+                                        <td>@task.TaskName</td>
+                                        <td>@(task.DueDate ?? "—")</td>
+                                        <td>@task.Category?.CategoryName</td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", new { id = task.TaskId }, new { @class = "btn btn-sm btn-outline-primary me-1" })
+                                            <form asp-action="MarkComplete" asp-route-id="@task.TaskId" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-outline-success me-1">Done</button>
+                                            </form>
+                                            <form asp-action="Delete" asp-route-id="@task.TaskId" method="post" class="d-inline"
+                                                  onsubmit="return confirm('Are you sure you want to delete this task?');">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+
+        <!-- Quadrant III -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-warning h-100">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Quadrant III &mdash; Not Important / Urgent</h5>
+                </div>
+                <div class="card-body">
+                    @if (!q3.Any())
+                    {
+                        <p class="text-muted">No tasks in this quadrant.</p>
+                    }
+                    else
+                    {
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Due Date</th>
+                                    <th>Category</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in q3)
+                                {
+                                    <tr>
+                                        <td>@task.TaskName</td>
+                                        <td>@(task.DueDate ?? "—")</td>
+                                        <td>@task.Category?.CategoryName</td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", new { id = task.TaskId }, new { @class = "btn btn-sm btn-outline-primary me-1" })
+                                            <form asp-action="MarkComplete" asp-route-id="@task.TaskId" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-outline-success me-1">Done</button>
+                                            </form>
+                                            <form asp-action="Delete" asp-route-id="@task.TaskId" method="post" class="d-inline"
+                                                  onsubmit="return confirm('Are you sure you want to delete this task?');">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Quadrant IV -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-secondary h-100">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Quadrant IV &mdash; Not Important / Not Urgent</h5>
+                </div>
+                <div class="card-body">
+                    @if (!q4.Any())
+                    {
+                        <p class="text-muted">No tasks in this quadrant.</p>
+                    }
+                    else
+                    {
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Due Date</th>
+                                    <th>Category</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in q4)
+                                {
+                                    <tr>
+                                        <td>@task.TaskName</td>
+                                        <td>@(task.DueDate ?? "—")</td>
+                                        <td>@task.Category?.CategoryName</td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", new { id = task.TaskId }, new { @class = "btn btn-sm btn-outline-primary me-1" })
+                                            <form asp-action="MarkComplete" asp-route-id="@task.TaskId" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-outline-success me-1">Done</button>
+                                            </form>
+                                            <form asp-action="Delete" asp-route-id="@task.TaskId" method="post" class="d-inline"
+                                                  onsubmit="return confirm('Are you sure you want to delete this task?');">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
